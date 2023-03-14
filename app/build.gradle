@@ -1,0 +1,157 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "kotlin-kapt"
+    id "kotlin-parcelize"
+    id "dagger.hilt.android.plugin"
+    //id "com.google.gms.google-services" // uncomment if you use Firebase
+    //id "com.google.firebase.crashlytics" // uncomment if you use Firebase Crashlytics
+    id "kotlinx-serialization" // for DataStore
+}
+
+android {
+    compileSdkVersion 32
+    defaultConfig {
+        applicationId 'com.android.cars'
+        minSdkVersion 21
+        targetSdkVersion 32
+        versionCode 1
+        versionName "1.0"
+        //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.android.cars.utilities.HiltTestAppRunner"
+
+        vectorDrawables.useSupportLibrary = true
+    }
+    compileOptions {
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        compose true
+
+        // Disable unused AGP features:
+        // https://developer.android.com/studio/releases/gradle-plugin#buildFeatures
+
+        // Determines whether to generate a BuildConfig class.
+        buildConfig = true // default "true"
+        // Determines whether to generate binder classes for your AIDL files.
+        aidl = false // default "true"
+        // Determines whether to support RenderScript.
+        renderScript = false // default "true"
+        // Determines whether to support injecting custom variables into the module’s R class.
+        resValues = false // default "true"
+        // Determines whether to support shader AOT compilation.
+        shaders = false // default "true"
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion composeVersion
+    }
+    buildTypes {
+        debug {
+            manifestPlaceholders.screenOrientation = "unspecified"
+            //manifestPlaceholders.crashlyticsCollectionEnabled = "false" // uncomment if you use Firebase Crashlytics
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            //firebaseCrashlytics { mappingFileUploadEnabled false } // uncomment if you use Firebase Crashlytics
+        }
+        release {
+            manifestPlaceholders.screenOrientation = "userPortrait"
+            //manifestPlaceholders.crashlyticsCollectionEnabled = "true" // uncomment if you use Firebase Crashlytics
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            //firebaseCrashlytics { mappingFileUploadEnabled true } // uncomment if you use Firebase Crashlytics
+        }
+    }
+    def serverDimension = "server"
+    flavorDimensions serverDimension
+    productFlavors {
+        dev {
+            dimension serverDimension
+            buildConfigField "String", "BASE_URL", "\"https://api.unsplash.com\""
+        }
+        prod {
+            dimension serverDimension
+            buildConfigField "String", "BASE_URL", "\"https://api.unsplash.com\""
+        }
+    }
+    packagingOptions {
+        exclude "META-INF/AL2.0"
+        exclude "META-INF/LGPL2.1"
+    }
+    // set name for both APK and ABB files, built type and flavor will be appended automatically
+    setProperty("archivesBaseName", "${defaultConfig.applicationId}_${defaultConfig.versionName}")
+}
+
+dependencies {
+    //implementation fileTree(dir: "libs", include: ["*.jar"]) // uncomment if you use static local libraries
+
+    // Android Core
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5" // Java 8 Language support
+    implementation "androidx.localbroadcastmanager:localbroadcastmanager:$localBroadcastManagerVersion"
+
+    // Compose UI
+    implementation "androidx.compose.runtime:runtime:$composeVersion"
+    implementation "androidx.compose.ui:ui:$composeVersion"
+    implementation "androidx.compose.foundation:foundation:$composeVersion"
+    implementation "androidx.compose.foundation:foundation-layout:$composeVersion"
+    implementation "androidx.compose.material:material:$composeVersion"
+    implementation "androidx.compose.material:material-icons-extended:$composeVersion"
+    debugImplementation "androidx.compose.ui:ui-tooling:$composeVersion"
+    implementation "androidx.activity:activity-compose:$activityComposeVersion"
+    implementation "com.google.accompanist:accompanist-insets:$accompanistVersion"
+    implementation "com.google.accompanist:accompanist-swiperefresh:$accompanistVersion"
+
+    // Navigation Component
+    implementation "androidx.navigation:navigation-compose:$navigationComposeVersion"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    implementation "androidx.hilt:hilt-navigation-compose:$hiltComposeNavigationVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+
+    // Room
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+
+    // OkHttp
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:$okhttpVersion"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    
+    // Coil
+    implementation "io.coil-kt:coil-compose:$coilVersion"
+
+    // Android Easy Logging
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    // Pagination
+    implementation "androidx.paging:paging-compose:$pagingComposeVersion"
+
+    // Datastore
+    implementation "androidx.datastore:datastore:$dataStoreVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-protobuf:$kotlinxSerializationProtobuf"
+    
+    // Tests
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.mockito:mockito-inline:4.4.0"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
+    androidTestImplementation "androidx.test.ext:junit:1.1.3"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
+}
