@@ -1,6 +1,8 @@
 package com.android.cars.ui
 
 enum class Screen {
+    Map,
+    MediaLibrary,
     Topics,
     Photos,
     TopicDetails,

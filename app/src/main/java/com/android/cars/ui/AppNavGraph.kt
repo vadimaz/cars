@@ -3,8 +3,7 @@ package com.android.cars.ui
 import androidx.annotation.StringRes
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FormatListBulleted
-import androidx.compose.material.icons.filled.Photo
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -17,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.android.cars.R
 import com.android.cars.ui.login.LoginScreen
+import com.android.cars.ui.media_library.MediaLibraryScreen
 import com.android.cars.ui.photos.PhotosScreen
 import com.android.cars.ui.topic_details.TopicDetailsScreen
 import com.android.cars.ui.topics.TopicsScreen
@@ -28,7 +28,7 @@ fun AppNavGraph(
     navController: NavHostController,
     scaffoldState: ScaffoldState,
     modifier: Modifier = Modifier,
-    startDestination: String = Screen.Topics.name,
+    startDestination: String = Screen.MediaLibrary.name,
 ) {
     val actions = remember(navController) { MainActions(navController) }
     val coroutineScope = rememberCoroutineScope()
@@ -39,6 +39,12 @@ fun AppNavGraph(
         startDestination = startDestination,
         modifier = modifier
     ) {
+        composable(route = Screen.MediaLibrary.name) {
+            MediaLibraryScreen(
+                openDrawer = openDrawer,
+                navigateToTopicDetails = {  }
+            )
+        }
         composable(route = Screen.Topics.name) {
             TopicsScreen(
                 topicsViewModel = hiltViewModel(),
@@ -98,8 +104,8 @@ enum class NavigationItem(
     val icon: ImageVector,
     @StringRes val titleRes: Int
 ) {
-    Topics(Screen.Topics, Icons.Filled.FormatListBulleted, R.string.topics_screen_name),
-    Photos(Screen.Photos, Icons.Filled.Photo, R.string.photos_screen_name)
+    Map(Screen.Map, Icons.Filled.Map, R.string.map_name),
+    MediaLibrary(Screen.MediaLibrary, Icons.Filled.LinkedCamera, R.string.media_library_name)
 }
 
 fun navigateTopLevelScreen(navController: NavController, screen: Screen) {

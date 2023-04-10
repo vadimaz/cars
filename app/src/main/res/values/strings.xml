@@ -17,6 +17,15 @@
     <!-- Errors -->
     <string name="error_internet_is_not_available_text">Internet is not available.\nPlease turn on mobile data or Wi-Fi.</string>
 
+    <!-- Map -->
+    <string name="map_name">Map</string>
+
+    <!-- Media Library -->
+    <string name="media_library_name">Media Library</string>
+    <string name="expiring_soon">Expiring soon</string>
+    <string name="filter">Filter</string>
+    <string name="request">Request</string>
+
     <!-- Topics -->
     <string name="topics_screen_name">Topics</string>
     <string name="topics_empty_placeholder_text">No topics yet</string>

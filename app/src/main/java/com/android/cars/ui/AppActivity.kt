@@ -35,7 +35,7 @@ class ArchAppActivity : ComponentActivity() {
 
 @Composable
 fun ArchApp() {
-    val topLevelDestinations = setOf(Screen.Topics, Screen.Photos)
+    val topLevelDestinations = setOf(Screen.Topics, Screen.Photos, Screen.MediaLibrary)
 
     val appViewModel: MainViewModel = hiltViewModel()
 

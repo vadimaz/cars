@@ -8,3 +8,5 @@ val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 val PhotoDescBackground = Color(0x80000000)
+
+val Gray900 = Color(0xFF2B2E41)

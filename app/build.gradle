@@ -107,6 +107,7 @@ dependencies {
     implementation "androidx.activity:activity-compose:$activityComposeVersion"
     implementation "com.google.accompanist:accompanist-insets:$accompanistVersion"
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanistVersion"
+    implementation "com.google.accompanist:accompanist-flowlayout:$accompanistVersion"
 
     // Navigation Component
     implementation "androidx.navigation:navigation-compose:$navigationComposeVersion"
